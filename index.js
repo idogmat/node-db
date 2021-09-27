@@ -1,7 +1,9 @@
 const express = require('express')
+const helmet = require("helmet");
 const path = require('path')
 const csrf = require('csurf')
 const flash = require('connect-flash')
+const compression = require('compression')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const session = require('express-session')
@@ -48,6 +50,12 @@ app.use(session({
 app.use(fileMiddleware.single('avatar'))
 app.use(csrf())
 app.use(flash())
+app.use(
+    helmet({
+      contentSecurityPolicy: false,
+    })
+);
+app.use(compression())
 app.use(varMiddleware)
 app.use(userMiddleware)
 
